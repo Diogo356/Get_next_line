@@ -6,7 +6,7 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 15:06:05 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/10 13:29:48 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:28:33 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	size;
 
 	size = 0;
-	while (s[size] != '\0')
+	while (s && s[size] != '\0')
 		size++;
 	return (size);
 }
@@ -34,14 +34,14 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		return (NULL);
 	i = 0;
 	sd = 0;
-	while (s1[i] != '\0')
+	while (s1 && s1[i] != '\0')
 	{
 		str_dest[sd] = s1[i];
 		sd++;
 		i++;
 	}
 	i = 0;
-	while (s2[i] != '\0')
+	while (s2 && s2[i] != '\0')
 	{
 		str_dest[sd] = s2[i];
 		sd++;
@@ -78,4 +78,3 @@ void	ft_bzero(void *s, size_t n)
 		}		
 	}
 }
-

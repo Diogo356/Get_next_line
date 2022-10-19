@@ -6,83 +6,95 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:47:44 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/10 19:46:05 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/19 18:19:11 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//encontrar a primeira ocorrencia de um caractere na string;
 char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == (char)c)
 			return ((char *)(s + i));
 		i++;
 	}
-	if (c == '\0')
+	if (s && c == '\0')
 		return ((char *)(s + i));
 	return (0);
 }
 
-//leia linhas;
-char	*read_line(int fd)
+//função para ler linha por linha do meu file descriptor 
+char	*read_line(int fd, char *left_str)
 {
-	char	str[];
-	int		i;
-	int		count_byte;
+	char *str;
+	int count_byte;
+	
+	//alloca a memoria nescessaria com o \0 no final;
+	str = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 
-	i = 0;
-	while (i <= BUFFER_SIZE)
-		i++;
-	str = (char *)ft_calloc(i + 1, sizeof(char));
-	if (!str)
+	//verifica se a alocação correu bem;
+	if(!str)
 	{
 		free(str);
-		return (NULL);
+		return(NULL);
 	}
+	
+	//meu contador começa em 1 por que não pode ser zero;
 	count_byte = 1;
+
+	//loop que verifica o \n na string e se o meu contador é diferente de zero;
 	while (!ft_strchr(str, '\n') && count_byte != 0)
 	{
-		count_byte = read(fd, str, i);
-		if (count_byte == -1)
+		//meu contador recebe o valor de retorno read;
+		count_byte = read(fd, str, BUFFER_SIZE);
+
+		//verifica se o read correu bem;
+		if(count_byte == -1)
 		{
 			free(str);
-			return (-1);
+			return(NULL);
 		}
-		str[count_byte] = '\0';
-		count_byte = ft_strjoin(count_byte, str);
+		//meu left_str junta as duas strings e retorna a nova string;
+		left_str = ft_strjoin(left_str, str);
 	}
 	free(str);
-	return (count_byte);
+	return(left_str);	
 }
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
 	static char	*str;
-	char		
+	char		*result_func;
+
+	//Verifico se o meu arquivo ou o meu BUFFER_SIZE é nulo;
+	if(!fd || !BUFFER_SIZE)
+		return(NULL);
+	result_func = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	if (!result_func)
+		return (NULL);
+	str = read_line(fd, result_func);
+	return(result_func);
 }
 
-// int main(void)
-// {
-// 	int file;
-// 	char str[1000];
 
-// 	ft_bzero(&str, 1000);
-// 	file = open("texto.txt", O_RDONLY);
-// 	if(file == -1)
-// 	{
-// 		printf("Não foi possivel abrir o arquivo.\n");
-// 		exit(0);
-// 	}
-// 	while(read(file, str, BUFFER_SIZE) != 0)
-// 	{
-// 		printf("%s", str);
-// 	}
-// 	close(file);
-// 	return(0);
-// }
+
+int main(void)
+{
+	int fd;
+	char *line;
+
+	fd = open("texto.txt", O_RDONLY);
+	line = "";
+	while (line != NULL)
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+	}
+	fd = close(fd);
+	return (0);
+}
