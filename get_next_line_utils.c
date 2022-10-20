@@ -6,7 +6,7 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 15:06:05 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/19 17:28:33 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:43:25 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,20 @@ void	ft_bzero(void *s, size_t n)
 			i++;
 		}		
 	}
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)(s + i));
+	return (0);
 }
