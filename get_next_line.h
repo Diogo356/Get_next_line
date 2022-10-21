@@ -6,7 +6,7 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:48:08 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/17 18:35:30 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/21 14:48:08 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@ char	*ft_strjoin(const char *s1, const char *s2);
 void	*ft_calloc(size_t nelem, size_t elsize);
 void	ft_bzero(void *s, size_t n);
 char	*ft_strchr(const char *s, int c);
+char	*read_line(int fd, char *left_str);
+char	*find_break_line(char *left_str);
+char	*new_position(char *left_str);
 
 # endif

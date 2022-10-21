@@ -19,18 +19,3 @@ int main(void)
 	return(0);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s && s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
-		i++;
-	}
-	if (s && c == '\0')
-		return ((char *)(s + i));
-	return (0);
-}
