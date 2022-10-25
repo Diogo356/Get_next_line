@@ -6,124 +6,111 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:47:44 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/21 16:26:44 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/25 14:30:09 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*read_line(int fd, char *left_str)
+char	*read_line(int fd, char *str)
 {
-	char *str;
-	int count_byte;
+	char	*buffer;
+	int		count_byte;
 
-	str = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	if(!str)
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
 	{
-		free(str);
-		return(NULL);
+		free(buffer);
+		return (NULL);
 	}
 	count_byte = 1;
 	while (!ft_strchr(str, '\n') && count_byte != 0)
 	{
-		count_byte = read(fd, str, BUFFER_SIZE);
-		if(count_byte == -1)
+		count_byte = read(fd, buffer, BUFFER_SIZE);
+		if (count_byte == -1)
 		{
-			free(str);
-			return(NULL);
+			free(buffer);
+			return (NULL);
 		}
-		left_str = ft_strjoin(left_str, str);
+		buffer[count_byte] = '\0';
+		str = ft_strjoin(str, buffer);
 	}
-	free(str);
-	return(left_str);	
-}
-
-char	*find_break_line(char *left_str)
-{
-	int			i;
-	int         s;
-	char		*str;
-
-	i = 0;
-	if (!left_str)
-		return (NULL);
-	while (left_str[i] && left_str[i] != '\n')
-		i++;
-	str = (char *)ft_calloc(sizeof(char), (i + 2));
-	if (!str)
-		return (NULL);
-	s = 0;
-	while (left_str[s] && left_str[s] != '\n')
-	{
-		str[s] = left_str[s];
-		s++;
-	}
-	if (left_str[s] == '\n')
-	{
-		str[s] = left_str[s];
-		s++;
-	}
+	free(buffer);
 	return (str);
 }
 
-char	*new_position(char *left_str)//função para armazenar a nova posição;
+char	*find_break_line(char *str)
+{
+	int			i;
+	char		*new;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != '\n')
+		i++;
+	new = (char *) malloc (sizeof(char) * (i + 2));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '\n')
+	{
+		new[i] = str[i];
+		i++;
+	}
+	if (str[i] == '\n')
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char	*new_position(char *str)
 {
 	int			s;
 	int			i;
-	char		*str;
+	char		*new;
 
 	i = 0;
 	s = 0;
-	while (left_str[i] && left_str[i] != '\n')
+	while (str[i] && str[i] != '\n')
 		i++;
-	if (left_str[i] == '\0')
+	if (str[i] == '\0')
 	{
-		free(left_str);
+		free(str);
 		return (NULL);
 	}
-	str = (char *)ft_calloc(sizeof(char), (ft_strlen(left_str) - i + 1));
-	if (!str)
+	new = (char *)malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!new)
 		return (NULL);
 	i++;
-	while (left_str[i])
-		str[s++] = left_str[i++];
-	free(left_str);
-	return (str);
+	while (str[i])
+		new[s++] = str[i++];
+	new[s] = '\0';
+	free(str);
+	return (new);
 }
+
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*left_str;
+	static char	*str;
 
 	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0) 
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	left_str = read_line(fd, left_str);
-	if (!left_str)
+	str = read_line(fd, str);
+	if (!str)
 		return (NULL);
-	line = find_break_line(left_str);
-	left_str = new_position(left_str);
+	line = find_break_line(str);
+	str = new_position(str);
 	if (line[0] == '\0')
 	{
-		free(left_str);
+		free(str);
 		free(line);
 		return (NULL);
 	}
 	return (line);
-}
-
-int main(void)
-{
-	int fd;
-	char *line;
-
-	fd = open("texto.txt", O_RDONLY);
-	line = "";
-	while (line != NULL)
-	{
-		line = get_next_line(fd);
-		printf("%s", line);
-	}
-	fd = close(fd);
-	return (0);
 }

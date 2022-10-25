@@ -6,49 +6,68 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 15:06:05 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/20 14:43:25 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/25 14:15:27 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *str)
 {
-	size_t	size;
+	size_t	s;
 
-	size = 0;
-	while (s && s[size] != '\0')
-		size++;
-	return (size);
+	s = 0;
+	if (!str)
+		return (0);
+	while (str[s])
+		s++;
+	return (s);
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strchr(char *s, int c)
 {
-	char	*str_dest;
-	int		sd;
-	int		i;
+	int	find;
 
-	sd = (ft_strlen(s1) + ft_strlen(s2)) + 1;
-	str_dest = (char *)malloc(sizeof(char) * (sd));
-	if (str_dest == 0)
+	find = 0;
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
+	while (s[find])
+	{
+		if (s[find] == (char) c)
+			return ((char *)&s[find]);
+		find ++;
+	}
+	return (0);
+}
+
+char	*ft_strjoin(char *left_str, char *buffer)
+{
+	char			*new_str;
+	size_t			s;
+	size_t			n;
+	int				lenstr;
+
+	lenstr = ft_strlen(left_str);
+	s = 0;
+	n = 0;
+	if (!left_str)
+	{
+		left_str = (char *)malloc(1 * sizeof(char));
+		left_str[0] = '\0';
+	}
+	new_str = malloc (sizeof(char) * (lenstr + ft_strlen(buffer)) + 1);
+	if (new_str == NULL)
 		return (NULL);
-	i = 0;
-	sd = 0;
-	while (s1 && s1[i] != '\0')
-	{
-		str_dest[sd] = s1[i];
-		sd++;
-		i++;
-	}
-	i = 0;
-	while (s2 && s2[i] != '\0')
-	{
-		str_dest[sd] = s2[i];
-		sd++;
-		i++;
-	}
-	str_dest[sd] = '\0';
-	return (str_dest);
+	while (left_str[n] != '\0')
+		new_str[n++] = left_str[s++];
+	s = 0;
+	while (buffer[s])
+		new_str[n++] = buffer[s++];
+	new_str[n] = '\0';
+	free(left_str);
+	return (new_str);
 }
 
 void	*ft_calloc(size_t nelem, size_t elsize)
@@ -63,7 +82,6 @@ void	*ft_calloc(size_t nelem, size_t elsize)
 	ft_bzero (p, nelem * elsize);
 	return (p);
 }
-
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
@@ -77,20 +95,4 @@ void	ft_bzero(void *s, size_t n)
 			i++;
 		}		
 	}
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
-		i++;
-	}
-	if (c == '\0')
-		return ((char *)(s + i));
-	return (0);
 }
