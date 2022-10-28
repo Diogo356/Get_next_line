@@ -6,7 +6,7 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 15:06:05 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/28 14:08:39 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:53:43 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,3 +69,4 @@ char	*ft_strjoin(char *str, char *buffer)
 	free(str);
 	return (new_str);
 }
+//abc

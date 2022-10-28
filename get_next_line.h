@@ -6,7 +6,7 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:48:08 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/25 14:14:48 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:53:32 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,4 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nelem, size_t elsize);
 
 #endif
+//abc

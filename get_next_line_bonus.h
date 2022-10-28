@@ -6,7 +6,7 @@
 /*   By: dbelarmi <dbelarmi@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 17:48:08 by dbelarmi          #+#    #+#             */
-/*   Updated: 2022/10/28 17:32:47 by dbelarmi         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:53:47 by dbelarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,4 @@ size_t	ft_strlen(char *str);
 char	*get_next_line(int fd);
 
 #endif
+//abc
